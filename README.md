@@ -1,4 +1,4 @@
-#Study Buddy App 
+# Study Buddy App 
 
 How to get started:
 
@@ -8,11 +8,11 @@ cd into the new folder and type. $ npm install. This installs the required depen
 To run the React project. $ npm start.
 ```
 
-##Repo
+## Repo
 https://github.com/corbinjensen/study-buddies##Followed this tutorial to create a MERN app with Database as a service backend.
 https://www.mongodb.com/languages/mern-stack-tutorial
 
-##React-Bootstrap
+## React-Bootstrap
 https://react-bootstrap.github.io/getting-started/introduction/
 
 

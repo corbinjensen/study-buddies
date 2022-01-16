@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
 
 const styles = {
-    color: "white"
+    color: "white",
 }
 
 

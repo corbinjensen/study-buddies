@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Record = (props) => (
     <tr>
-        <td>{props.record.firstName}</td>
+        <td><Link to="/chat">{props.record.firstName}</Link></td>
         <td>{props.record.lastName}</td>
         <td>{props.record.classes}</td>
         <td>

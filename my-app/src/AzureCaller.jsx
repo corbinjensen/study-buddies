@@ -16,6 +16,7 @@ export default function AzureCaller() {
   useEffect(() => {
     async function init() {
       const identityToken = await AzureIdentity.getIdentityToken();
+      console.log(identityToken);
       setUserId(identityToken.user.communicationUserId);
 
       const callClient = new CallClient();
@@ -54,7 +55,7 @@ export default function AzureCaller() {
     const videoOptions = camera ? { localVideoStreams: [camera] } : undefined;
 
     console.log(number);
-    const currentCall = callAgent.createCall([{ communicationUserId: number.trim() }], { videoOptions });
+    const currentCall = callAgent.createCall([{ communicationUserId: number }], { videoOptions });
     setCurrentCall(currentCall);
     addCallListeners(currentCall);
   }

@@ -69,7 +69,7 @@ useEffect(() => {
 
   return(
     <>
-    <h3>Sign Up New Student</h3>
+    <h3>Edit Student</h3>
     <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlID="formBasicText">
             <Form.Label>First Name</Form.Label>

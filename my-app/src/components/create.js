@@ -85,11 +85,12 @@ return (
                 onChange={(e) => updateForm({ classes: e.target.value })}
                 ></Form.Control>
             </Form.Group>
-            <input
-            type="submit"
-            value="Create Profile"
-            className="btn btn-primary"
-          />
+        
+           
+            <Button variant="primary" type="submit">
+                Create Student
+            </Button>
+
         </Form>
 
     </>

@@ -1,11 +1,11 @@
 import React from 'react';
-import Nav from './Nav'
+import NavComp from './NavComp'
 
 const Header = () => (
 
             <header className="container-fluid">
                 <h1>Study Buddies App</h1>
-                <Nav />
+                <NavComp />
                 <hr></hr>
             </header>
 )

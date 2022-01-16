@@ -5,14 +5,9 @@ import DataStore from '../dataStore';
 export default function About() {
     return (
       <main style={{ padding: "1rem 0" }}>
-        <Row><Form.Label>Name: <Form.Control onChange={e => DataStore.setName(e.target.value)}/></Form.Label></Row>
-        <Row><Form.Label>Course #1: <Form.Control/></Form.Label></Row>
-        <Row><Form.Label>Course #2: <Form.Control/></Form.Label></Row>
-        <Row><Form.Label>Course #3: <Form.Control/></Form.Label></Row>
-        <Row><Form.Label>Course #4: <Form.Control/></Form.Label></Row>
-        <Row><Form.Label>Course #5: <Form.Control/></Form.Label></Row>
-        <Row><Form.Label>Course #6: <Form.Control/></Form.Label></Row>
-          <Link to="/chat"><Button>Match with Classmates</Button></Link>
+        <p>Pandemic bringing your mood down? Need some social interaction safely?</p>
+        <p>This is the place for you!</p>
+        <p>Find a Study Buddy™ within seconds and start finding friends online!</p>
       </main>
     );
   }

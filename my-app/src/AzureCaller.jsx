@@ -1,6 +1,7 @@
 import {CallClient, CallAgent, LocalVideoStream, VideoStreamRenderer} from "@azure/communication-calling";
 import { AzureCommunicationTokenCredential } from '@azure/communication-common';
 import React, {useEffect, useRef} from 'react';
+import {Button} from "react-bootstrap";
 
 export default function AzureCaller() {
   const [callClient, setCallClient] = React.useState();
@@ -127,8 +128,8 @@ export default function AzureCaller() {
     {callAgent == null && <p>Loading...</p>}
     {callAgent != null && <p>Your user ID is: {userId}</p>}
     <input onChange={e => setNumber(e.target.value)} value={number}/>
-    <button disabled={currentCall != null || callAgent == null || number.length === 0} onClick={makeCall}>Call</button>
-    <button disabled={currentCall == null} onClick={hangUp}>Hangup</button>
+    <Button disabled={currentCall != null || callAgent == null || number.length === 0} onClick={makeCall}>Call</Button>
+    <Button disabled={currentCall == null} onClick={hangUp}>Hangup</Button>
     <p>Your Video:</p>
     <div ref={localVideoRef} style={{ height: '100px', width: '180px' }}/>
     <p>Study Buddy Video:</p>

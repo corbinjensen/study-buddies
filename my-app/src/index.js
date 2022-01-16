@@ -32,7 +32,7 @@ ReactDOM.render(
           <Route path="chat" element={<Chat/>}/>
           <Route path="map" element={<Map/>}/>
           <Route path="create" element={<Create />}/>
-          <Route path="edit" element={<Edit />}/>
+          <Route path="edit/:id" element={<Edit />}/>
           <Route path="student-list" element={<StudentList />}/>
           <Route path="*" element={<NotFound />}/>
         </Route>

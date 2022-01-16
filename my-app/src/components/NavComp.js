@@ -29,6 +29,11 @@ const NavComp = () => (
                     <Link to="/create">Sign Up</Link>
                 </Nav.Link>
             </Nav.Item>
+            <Nav.Item>
+                <Nav.Link>
+                    <Link to="/student-list">Students</Link>
+                </Nav.Link>
+            </Nav.Item>
         </Nav>
   </>
 );

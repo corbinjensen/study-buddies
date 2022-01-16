@@ -19,29 +19,28 @@ function updateForm(value) {
     });
   }
 
-  // This function will handle the submission
-  async function onSubmit(e) {
+  // This function will handle the submission.
+ async function onSubmit(e) {
     e.preventDefault();
-
-   // When a post request is sent to the create url,
-   // we'll add a new record to the database.
-   const newPerson = {...form};
-
-   await fetch("http://localhost:5001/record/add", {
-     method: "POST",
-     headers: {
-       "Content-Type": "application/json",
-     },
-     body: JSON.stringify(newPerson),
-   })
-   .catch(error => {
-     window.alert(error);
-     return;
-   });
-
-   setForm({ firstName: "", lastName: "", classes: "" });
-   navigate("/");
-}; // end onSubmit()
+  
+    // When a post request is sent to the create url, we'll add a new record to the database.
+    const newPerson = { ...form };
+  
+    await fetch("http://localhost:5001/record/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newPerson),
+    })
+    .catch(error => {
+      window.alert(error);
+      return;
+    });
+  
+    setForm({ name: "", position: "", level: "" });
+    navigate("/");
+  } // end onSubmit()
 
  // This following section will display the form that takes 
  // the input from the user.

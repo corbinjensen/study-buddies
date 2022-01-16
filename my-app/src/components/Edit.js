@@ -67,6 +67,33 @@ useEffect(() => {
     navigate("/");
   }
 
+  useEffect(() => {
+    async function fetchData() {
+      const id = params.id.toString();
+      const response = await fetch(`http://localhost:5001/record/${params.id.toString()}`);
+  
+      if (!response.ok) {
+        const message = `An error has occured: ${response.statusText}`;
+        window.alert(message);
+        return;
+      }
+  
+      const record = await response.json();
+      if (!record) {
+        window.alert(`Record with id ${id} not found`);
+        navigate("/");
+        return;
+      }
+  
+      setForm(record);
+    }
+  
+    fetchData();
+  
+    return;
+  }, [params.id, navigate]);
+ 
+
   return(
     <>
     <h3>Edit Student</h3>
@@ -106,6 +133,8 @@ useEffect(() => {
             onChange={(e) => updateForm({ classes: e.target.value })}
             ></Form.Control>
         </Form.Group>
+        <Button 
+        />
         <input
         type="submit"
         value="Edit Profile"

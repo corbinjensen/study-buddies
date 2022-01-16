@@ -13,6 +13,9 @@ import About from "./pages/About";
 import Chat from "./pages/Chat";
 import Map from "./pages/Map";
 import NotFound from './pages/NotFound';
+import Create from './components/Create';
+import Edit from './components/Edit';
+import StudentList from './components/StudentList';
 <link
   rel="stylesheet"
   href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
@@ -28,6 +31,9 @@ ReactDOM.render(
           <Route path="about" element={<About/>}/>
           <Route path="chat" element={<Chat/>}/>
           <Route path="map" element={<Map/>}/>
+          <Route path="create" element={<Create />}/>
+          <Route path="edit" element={<Edit />}/>
+          <Route path="student-list" element={<StudentList />}/>
           <Route path="*" element={<NotFound />}/>
         </Route>
       </Routes>

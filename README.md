@@ -18,4 +18,11 @@ https://www.mongodb.com/languages/mern-stack-tutorial
 ## React-Bootstrap
 https://react-bootstrap.github.io/getting-started/introduction/
 
+## Bootstrap Icons
+https://icons.getbootstrap.com/ 
+
+## React Router Dom
+https://www.npmjs.com/package/react-router-dom
+
+
 

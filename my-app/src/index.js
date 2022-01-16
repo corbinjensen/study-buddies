@@ -1,16 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
+import { 
   BrowserRouter,
   Routes,
-  Route
-} from "react-router-dom";
+  Route 
+} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import About from "./pages/About";
 import Chat from "./pages/Chat";
 import Map from "./pages/Map";
+import Header from './components/Header';
+import Footer from './components/Footer';
+import NotFound from './pages/NotFound';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -20,6 +23,7 @@ ReactDOM.render(
           <Route path="about" element={<About/>}/>
           <Route path="chat" element={<Chat/>}/>
           <Route path="map" element={<Map/>}/>
+          <Route path="*" element={<NotFound />}/>
         </Route>
       </Routes>
     </BrowserRouter>

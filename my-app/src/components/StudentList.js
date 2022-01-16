@@ -75,7 +75,7 @@ return (
           <tr>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Class</th>
+            <th>Classes</th>
             <th>Action</th>
           </tr>
         </thead>

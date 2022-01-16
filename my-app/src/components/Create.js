@@ -39,7 +39,7 @@ function updateForm(value) {
     });
   
     setForm({ name: "", position: "", level: "" });
-    navigate("/");
+    navigate("/student-list");
   } // end onSubmit()
 
  // This following section will display the form that takes 

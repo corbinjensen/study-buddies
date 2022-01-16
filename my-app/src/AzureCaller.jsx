@@ -1,4 +1,4 @@
-import {CallClient, LocalVideoStream, VideoStreamRenderer} from "@azure/communication-calling";
+import {CallClient, CallAgent, LocalVideoStream, VideoStreamRenderer} from "@azure/communication-calling";
 import { AzureCommunicationTokenCredential } from '@azure/communication-common';
 import React, {useEffect, useRef} from 'react';
 import AzureIdentity from './azureIdentity';
@@ -9,19 +9,22 @@ export default function AzureCaller() {
   const [deviceManager, setDeviceManager] = React.useState();
   const [userId, setUserId] = React.useState();
   const [currentCall, setCurrentCall] = React.useState();
+  const [token, setToken] = React.useState('');
   const [number, setNumber] = React.useState('');
   const localVideoRef = useRef();
   const buddyVideoRef = useRef();
 
   useEffect(() => {
     async function init() {
+      setCallAgent(null);
       const identityToken = await AzureIdentity.getIdentityToken();
       console.log(identityToken);
       setUserId(identityToken.user.communicationUserId);
 
       const callClient = new CallClient();
-      const tokenCredential = new AzureCommunicationTokenCredential(identityToken.token);
-      const callAgent = await callClient.createCallAgent(tokenCredential);
+      console.log(token);
+      const tokenCredential = new AzureCommunicationTokenCredential(token || identityToken.token);
+      const callAgent = await callClient.createCallAgent(tokenCredential, { displayName: 'test' });
 
       const deviceManager = await callClient.getDeviceManager();
       await deviceManager.askDevicePermission({ video: true });
@@ -37,24 +40,38 @@ export default function AzureCaller() {
       setCallAgent(callAgent);
     }
     init();
-  }, []);
+  }, [token]);
 
   async function onIncomingCall(args) {
     console.log(args);
     const camera = (await deviceManager.getCameras())[0];
-    const videoOptions = camera ? { localVideoStreams: [camera] } : undefined;
+    const stream = camera ? new LocalVideoStream(camera) : undefined;
+
+    if (stream) {
+      const renderer = new VideoStreamRenderer(stream);
+      const view = await renderer.createView();
+      buddyVideoRef.current.appendChild(view.target);
+    }
+    const videoOptions = stream ? { localVideoStreams: [stream] } : undefined;
 
     const currentCall = args.incomingCall.accept({ videoOptions });
-    await currentCall.startVideo(new LocalVideoStream(camera));
     setCurrentCall(currentCall);
     addCallListeners(currentCall);
   }
 
   async function makeCall() {
     const camera = (await deviceManager.getCameras())[0];
-    const videoOptions = camera ? { localVideoStreams: [camera] } : undefined;
+    const stream = camera ? new LocalVideoStream(camera) : undefined;
 
-    console.log(number);
+    if (stream) {
+      const renderer = new VideoStreamRenderer(stream);
+      const view = await renderer.createView();
+      localVideoRef.current.appendChild(view.target);
+    }
+    const videoOptions = stream ? { localVideoStreams: [stream] } : undefined;
+
+
+    console.log([{ communicationUserId: number }], { videoOptions });
     const currentCall = callAgent.createCall([{ communicationUserId: number }], { videoOptions });
     setCurrentCall(currentCall);
     addCallListeners(currentCall);
@@ -93,16 +110,6 @@ export default function AzureCaller() {
     buddyVideoRef.current.appendChild(view.target);
   }
 
-  async function startVideo() {
-    const camera = (await deviceManager.getCameras())[0];
-    const stream = new LocalVideoStream(camera);
-    currentCall.startVideo(stream);
-
-    const renderer = new VideoStreamRenderer(stream);
-    const view = await renderer.createView();
-    localVideoRef.current.appendChild(view.target);
-  }
-
   function hangUp() {
     currentCall.hangUp({ forEveryone: true });
     setCurrentCall(null);
@@ -113,9 +120,9 @@ export default function AzureCaller() {
   return <>
     {callAgent == null && <p>Loading...</p>}
     {callAgent != null && <p>Your user ID is: {userId}</p>}
+    <input onChange={e => setToken(e.target.value)} value={token}/>
     <input onChange={e => setNumber(e.target.value)} value={number}/>
     <button disabled={currentCall != null || callAgent == null || number.length === 0} onClick={makeCall}>Call</button>
-    <button disabled={currentCall == null} onClick={startVideo}>Start Video</button>
     <button disabled={currentCall == null} onClick={hangUp}>Hangup</button>
     <p>Your Video:</p>
     <div ref={localVideoRef} style={{ height: '200px' }}/>

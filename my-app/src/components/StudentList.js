@@ -69,7 +69,7 @@ export default function StudentList() {
 // This following section will display the table with the records of individuals.
 return (
     <div>
-      <h3>Student List</h3>
+      <h3 style={{ paddingTop: '25px', textAlign: 'center' }}>Student List</h3>
       <table className="table table-striped" style={{ marginTop: 20 }}>
         <thead>
           <tr>

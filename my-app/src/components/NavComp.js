@@ -20,9 +20,19 @@ const NavComp = () => (
             <Nav.Link><Link to="/about">About</Link></Nav.Link>
             </Nav.Item>
             <Nav.Item>
-            <Nav.Link>
-                <Link to="/map">Map</Link>
-            </Nav.Link>
+                <Nav.Link>
+                    <Link to="/map">Map</Link>
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link>
+                    <Link to="/create">Sign Up</Link>
+                </Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+                <Nav.Link>
+                    <Link to="/student-list">Students</Link>
+                </Nav.Link>
             </Nav.Item>
         </Nav>
   </>

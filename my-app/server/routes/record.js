@@ -39,11 +39,7 @@ recordRoutes.route("/record/:id").get(function (req, res) {
 // This section will help you create a new record.
 recordRoutes.route("/record/add").post(function (req, response) {
   let db_connect = dbo.getDb();
-  let myobj = {
-    person_name: req.body.person_name,
-    person_position: req.body.person_position,
-    person_level: req.body.person_level,
-  };
+  let myobj = req.body;
   db_connect.collection("records").insertOne(myobj, function (err, res) {
     if (err) throw err;
     response.json(res);
@@ -55,11 +51,7 @@ recordRoutes.route("/update/:id").post(function (req, response) {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId( req.params.id )};
   let newvalues = {
-    $set: {
-      person_name: req.body.person_name,
-      person_position: req.body.person_position,
-      person_level: req.body.person_level,
-    },
+    $set: req.body,
   };
   db_connect
     .collection("records")

@@ -30,11 +30,6 @@ export default function AzureCaller() {
       await deviceManager.askDevicePermission({ video: true });
       await deviceManager.askDevicePermission({ audio: true });
 
-      callAgent.on('incomingCall', e => {
-        console.log(e);
-        onIncomingCall(e);
-      });
-
       setCallClient(callClient);
       setDeviceManager(deviceManager);
       setCallAgent(callAgent);
@@ -50,14 +45,27 @@ export default function AzureCaller() {
     if (stream) {
       const renderer = new VideoStreamRenderer(stream);
       const view = await renderer.createView();
-      buddyVideoRef.current.appendChild(view.target);
+      localVideoRef.current.appendChild(view.target);
     }
     const videoOptions = stream ? { localVideoStreams: [stream] } : undefined;
 
-    const currentCall = args.incomingCall.accept({ videoOptions });
+    const currentCall = await args.incomingCall.accept({ videoOptions });
     setCurrentCall(currentCall);
     addCallListeners(currentCall);
   }
+
+  useEffect(() => {
+    const callbackFn = e => {
+      console.log(e);
+      onIncomingCall(e);
+    };
+    if (deviceManager && buddyVideoRef.current && callAgent) {
+      callAgent.on('incomingCall', callbackFn);
+      return () => {
+        callAgent.off('incomingCall', callbackFn);
+      };
+    }
+  }, [callAgent, deviceManager, buddyVideoRef]);
 
   async function makeCall() {
     const camera = (await deviceManager.getCameras())[0];
@@ -72,7 +80,7 @@ export default function AzureCaller() {
 
 
     console.log([{ communicationUserId: number }], { videoOptions });
-    const currentCall = callAgent.createCall([{ communicationUserId: number }], { videoOptions });
+    const currentCall = callAgent.startCall([{ communicationUserId: number }], { videoOptions });
     setCurrentCall(currentCall);
     addCallListeners(currentCall);
   }
@@ -120,7 +128,6 @@ export default function AzureCaller() {
   return <>
     {callAgent == null && <p>Loading...</p>}
     {callAgent != null && <p>Your user ID is: {userId}</p>}
-    <input onChange={e => setToken(e.target.value)} value={token}/>
     <input onChange={e => setNumber(e.target.value)} value={number}/>
     <button disabled={currentCall != null || callAgent == null || number.length === 0} onClick={makeCall}>Call</button>
     <button disabled={currentCall == null} onClick={hangUp}>Hangup</button>

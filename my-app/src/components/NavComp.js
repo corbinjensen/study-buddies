@@ -1,40 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Nav } from 'react-bootstrap';
+import { Nav, Navbar } from 'react-bootstrap';
+
+const styles = {
+    color: "white"
+}
 
 
 const NavComp = () => (
     <>
+    <Navbar bg='dark' variant='dark' className="justify-content-center">
         <Nav activeKey="/home">
-            <Nav.Item>
-            <Nav.Link href="/home">
-                    <Link to="/">
-                        Home
-                    </Link>
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-            <Nav.Link ><Link to="/chat">Chat</Link></Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-            <Nav.Link><Link to="/about">About</Link></Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link>
-                    <Link to="/map">Map</Link>
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link>
-                    <Link to="/create">Sign Up</Link>
-                </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-                <Nav.Link>
-                    <Link to="/student-list">Students</Link>
-                </Nav.Link>
-            </Nav.Item>
+            <Nav.Link href="/home"><Link to="/" className=''><h4 style={styles}>Home</h4></Link></Nav.Link>
+            <Nav.Link><Link to="/map"><h4 style={styles}>Map</h4></Link></Nav.Link>
+            <Nav.Link><Link to="/student-list"><h4 style={styles}>Students</h4></Link></Nav.Link>
+            <Nav.Link><Link to="/create"><h4 style={styles}>Sign-Up</h4></Link></Nav.Link>
+            <Nav.Link><Link to="/about"><h4 style={styles}>About</h4></Link></Nav.Link>
         </Nav>
+    </Navbar>
   </>
 );
 

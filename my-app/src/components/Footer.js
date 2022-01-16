@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => (
     <>
-        <footer style={{ borderTop: '1px solid grey' }}>Made with ❤️ in Vancouver</footer>
+        <footer style={{ borderTop: '1px solid grey', textAlign: 'center' }}>Made with ❤️ in Vancouver</footer>
     </>
 )
 

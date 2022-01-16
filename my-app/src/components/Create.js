@@ -51,7 +51,7 @@ function updateForm(value) {
 // This following section will display the form that takes the input from the user.
 return (
     <>
-        <h3>Sign Up New Student</h3>
+        <h3 style={{ paddingTop: '30px', textAlign: 'center' }}>Sign Up New Student</h3>
         <Form onSubmit={onSubmit}>
             <Form.Group className="mb-3" controlID="formBasicText">
                 <Form.Label>First Name</Form.Label>

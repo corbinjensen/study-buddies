@@ -12,7 +12,9 @@ $ npm start.
 ```
 
 ## Repo
-https://github.com/corbinjensen/study-buddies##Followed this tutorial to create a MERN app with Database as a service backend.
+https://github.com/corbinjensen/study-buddies
+
+## MERN app with Database as a service backend.
 https://www.mongodb.com/languages/mern-stack-tutorial
 
 ## React-Bootstrap

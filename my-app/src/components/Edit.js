@@ -17,26 +17,26 @@ const navigate = useNavigate();
 useEffect(() => {
     async function fetchData() {
       const id = params.id.toString();
-      const response = await fetch(`http://localhost:5001/record/${params.id.toString()}`);
-  
+      const response = await fetch(`/record/${params.id.toString()}`);
+
       if (!response.ok) {
         const message = `An error has occured: ${response.statusText}`;
         window.alert(message);
         return;
       }
-  
+
       const record = await response.json();
       if (!record) {
         window.alert(`Record with id ${id} not found`);
         navigate("/");
         return;
       }
-  
+
       setForm(record);
     }
-  
+
     fetchData();
-  
+
     return;
   }, [params.id, navigate]);
 
@@ -54,7 +54,7 @@ useEffect(() => {
       position: form.position,
       level: form.level,
     };
-  
+
     // This will send a post request to update the data in the database.
     await fetch(`http://localhost:5001/update/${params.id}`, {
       method: "POST",
@@ -63,12 +63,12 @@ useEffect(() => {
         'Content-Type': 'application/json'
       },
     });
-  
+
     navigate("/student-list");
   }
 
-  
- 
+
+
 
   return(
     <>
@@ -76,8 +76,8 @@ useEffect(() => {
     <Form onSubmit={onSubmit}>
         <Form.Group className="mb-3" controlID="formBasicText">
             <Form.Label>First Name</Form.Label>
-            <Form.Control 
-            type="text" 
+            <Form.Control
+            type="text"
             placeholder="Enter First Name"
             className="form-control"
             id="firstName"
@@ -88,8 +88,8 @@ useEffect(() => {
 
         <Form.Group className="mb-3" controlID="formBasicText2">
             <Form.Label>Last Name</Form.Label>
-            <Form.Control 
-            type="text" 
+            <Form.Control
+            type="text"
             placeholder="Enter Last Name"
             className="form-control"
             id="lastName"
@@ -97,11 +97,11 @@ useEffect(() => {
             onChange={(e) => updateForm({ lastName: e.target.value })}
             ></Form.Control>
         </Form.Group>
-        
+
         <Form.Group className="mb-3" controlID="formBasicText3">
             <Form.Label>Classes</Form.Label>
-            <Form.Control 
-            type="text" 
+            <Form.Control
+            type="text"
             placeholder="Enter Classes"
             className="form-control"
             id="classes"
@@ -109,12 +109,12 @@ useEffect(() => {
             onChange={(e) => updateForm({ classes: e.target.value })}
             ></Form.Control>
         </Form.Group>
-        <Button 
+        <Button
             type="submit"
             className="btn btn-primary"
         >Edit Profile</Button>
-        
-        
+
+
     </Form>
 
 </>

@@ -2,8 +2,7 @@ import React from 'react';
 
 const Footer = () => (
     <>
-        <hr></hr>
-        <h2>Footer</h2>
+        <footer style={{ borderTop: '1px solid grey' }}>Made with ❤️ in Vancouver</footer>
     </>
 )
 

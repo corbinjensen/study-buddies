@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import ReactDOM from 'react-dom';
 import { 
   BrowserRouter,
@@ -11,9 +12,13 @@ import reportWebVitals from './reportWebVitals';
 import About from "./pages/About";
 import Chat from "./pages/Chat";
 import Map from "./pages/Map";
-import Header from './components/Header';
-import Footer from './components/Footer';
 import NotFound from './pages/NotFound';
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+  crossorigin="anonymous"
+/>
 
 ReactDOM.render(
   <React.StrictMode>

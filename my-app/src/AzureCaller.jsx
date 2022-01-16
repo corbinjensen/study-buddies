@@ -1,7 +1,6 @@
 import {CallClient, CallAgent, LocalVideoStream, VideoStreamRenderer} from "@azure/communication-calling";
 import { AzureCommunicationTokenCredential } from '@azure/communication-common';
 import React, {useEffect, useRef} from 'react';
-import AzureIdentity from './azureIdentity';
 
 export default function AzureCaller() {
   const [callClient, setCallClient] = React.useState();
@@ -17,8 +16,7 @@ export default function AzureCaller() {
   useEffect(() => {
     async function init() {
       setCallAgent(null);
-      const identityToken = await AzureIdentity.getIdentityToken();
-      console.log(identityToken);
+      const identityToken = await fetch('/azure/authenticate', { method: 'POST' }).then(res => res.json());
       setUserId(identityToken.user.communicationUserId);
 
       const callClient = new CallClient();
@@ -132,8 +130,8 @@ export default function AzureCaller() {
     <button disabled={currentCall != null || callAgent == null || number.length === 0} onClick={makeCall}>Call</button>
     <button disabled={currentCall == null} onClick={hangUp}>Hangup</button>
     <p>Your Video:</p>
-    <div ref={localVideoRef} style={{ height: '200px' }}/>
+    <div ref={localVideoRef} style={{ height: '100px', width: '180px' }}/>
     <p>Study Buddy Video:</p>
-    <div ref={buddyVideoRef} style={{ maxHeight: '500px' }}/>
+    <div ref={buddyVideoRef} style={{ height: '200px', width: '360px' }}/>
   </>;
 }

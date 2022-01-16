@@ -2,6 +2,7 @@ import {CallClient, CallAgent, LocalVideoStream, VideoStreamRenderer} from "@azu
 import { AzureCommunicationTokenCredential } from '@azure/communication-common';
 import React, {useEffect, useRef} from 'react';
 import {Button, Form} from "react-bootstrap";
+import DataStore from './dataStore';
 
 export default function AzureCaller() {
   const [callClient, setCallClient] = React.useState();
@@ -11,13 +12,20 @@ export default function AzureCaller() {
   const [currentCall, setCurrentCall] = React.useState();
   const [token, setToken] = React.useState('');
   const [number, setNumber] = React.useState('');
+  const [identity, setIdentity] = React.useState({});
   const localVideoRef = useRef();
   const buddyVideoRef = useRef();
 
   useEffect(() => {
     async function init() {
       setCallAgent(null);
-      const identityToken = await fetch('/azure/authenticate', { method: 'POST' }).then(res => res.json());
+      const identityToken = await fetch('/azure/authenticate', {
+        method: 'POST',
+        body: JSON.stringify({ name: DataStore.getName() }),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }, ).then(res => res.json());
       setUserId(identityToken.user.communicationUserId);
 
       const callClient = new CallClient();
@@ -35,6 +43,12 @@ export default function AzureCaller() {
     }
     init();
   }, [token]);
+  useEffect(() => {
+    async function init() {
+      setIdentity(await fetch('/azure').then(res => res.json()));
+    }
+    setInterval(init, 2000);
+  }, []);
 
   async function onIncomingCall(args) {
     console.log(args);
@@ -66,7 +80,7 @@ export default function AzureCaller() {
     }
   }, [callAgent, deviceManager, buddyVideoRef]);
 
-  async function makeCall() {
+  async function makeCall(num) {
     const camera = (await deviceManager.getCameras())[0];
     const stream = camera ? new LocalVideoStream(camera) : undefined;
 
@@ -77,8 +91,6 @@ export default function AzureCaller() {
     }
     const videoOptions = stream ? { localVideoStreams: [stream] } : undefined;
 
-
-    console.log([{ communicationUserId: number }], { videoOptions });
     const currentCall = callAgent.startCall([{ communicationUserId: number }], { videoOptions });
     setCurrentCall(currentCall);
     addCallListeners(currentCall);
@@ -87,7 +99,11 @@ export default function AzureCaller() {
   async function addCallListeners(currentCall) {
     console.log(currentCall);
     currentCall.on('idChanged', () => console.log(currentCall));
-    currentCall.on('stateChanged', () => console.log(currentCall));
+    currentCall.on('stateChanged', () => {
+      if (currentCall.state === 'Disconnected') {
+        hangUp();
+      }
+    });
     currentCall.on('localVideoStreamsUpdated', (e) => console.log(e, currentCall));
     currentCall.remoteParticipants.forEach(buddy => {
       addBuddyListeners(buddy);
@@ -123,13 +139,19 @@ export default function AzureCaller() {
     localVideoRef.current.innerHTML = '';
     buddyVideoRef.current.innerHTML = '';
   }
-
+console.log(identity);
   return <>
     {callAgent == null && <p>Loading...</p>}
-    {callAgent != null && <p>Your user ID is: {userId}</p>}
-    <Form.Control onChange={e => setNumber(e.target.value)} value={number}/>
-    <Button 
-    disabled={currentCall != null || callAgent == null || number.length === 0} 
+    {callAgent != null && <p>You are now ready to find your Study Buddy™!</p>}
+    {callAgent != null && typeof identity === 'object' && Object.keys(identity).length > 0 && <Form.Select onChange={(event) => {
+      const e = event.target.value;
+      setNumber(e == 'null' ? '' : e);
+    }}>
+      <option value={"null"}>Please select one...</option>
+      {Object.keys(identity).filter(e => e !== DataStore.getName()).map(e => <option value={identity[e].user.communicationUserId} >{e}</option>)}
+    </Form.Select>}
+    <Button
+    disabled={currentCall != null || callAgent == null || number.length === 0}
     onClick={makeCall}>
       Call <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-telephone-fill" viewBox="0 0 16 16">
   <path fill-rule="evenodd" d="M1.885.511a1.745 1.745 0 0 1 2.61.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.678.678 0 0 0 .178.643l2.457 2.457a.678.678 0 0 0 .644.178l2.189-.547a1.745 1.745 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.634 18.634 0 0 1-7.01-4.42 18.634 18.634 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877L1.885.511z"/>
